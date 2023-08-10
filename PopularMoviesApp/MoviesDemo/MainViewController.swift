@@ -44,14 +44,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func fetchMovies(for cell: MainTableViewCell, at indexPath: IndexPath) {
         if movieViewModel.moviesList.isEmpty {
             movieViewModel.fetchMovies(sectionNumber: indexPath.section) { error in
-                guard let error = error else {
-                    cell.sectionModel.sectionMovieList.append(contentsOf: self.movieViewModel.moviesList[indexPath.section])
-                    DispatchQueue.main.async {
-                        cell.moviesListCollectionView.reloadData()
-                    }
-                    return
+                cell.sectionModel.sectionMovieList.append(contentsOf: self.movieViewModel.moviesList[indexPath.section])
+                DispatchQueue.main.async {
+                    cell.moviesListCollectionView.reloadData()
                 }
-                print(error)
+                if let error = error {
+                    print(error)
+                }
             }
         }
     }
